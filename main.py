@@ -4,7 +4,7 @@ st.set_page_config(
     page_title="Web Team 2",
     page_icon="🗿",
 )
-# 
+# Testt
 st.title("Web Team 2")
 
 # Menu pertama
