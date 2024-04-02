@@ -5,6 +5,7 @@ st.set_page_config(
     page_icon="🗿",
 )
 
+# Ini buat ngasih title
 st.title("Web Team 2")
 
 # Menu pertama
