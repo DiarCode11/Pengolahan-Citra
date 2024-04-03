@@ -9,7 +9,7 @@ def histogram_matching(source: Image.Image, target: Image.Image):
     image1 = np.array(source).astype(np.uint8)
     image2 = np.array(target).astype(np.uint8)
     
-    matched = match_histograms(image1, image2).astype(np.uint8)
+    matched = match_histograms(image1, image2, channel_axis=-1).astype(np.uint8)
 
     return Image.fromarray(matched)
 
@@ -27,24 +27,20 @@ def main():
             st.image(input_image)
     with cols[1]:
         st.subheader("Reference Image")
-        reference_image = st.file_uploader("Upload Reference Image", type=["png", "png", "jpeg"], accept_multiple_files=False)
+        reference_image = st.file_uploader("Upload Reference Image", type=["png", "jpg", "jpeg"], accept_multiple_files=False)
         if reference_image is not None:
             reference_image = Image.open(reference_image)
             st.image(reference_image)
 
 
     if input_image is not None and reference_image is not None:
+        # Convert both images to the same mode
+        input_image = input_image.convert(reference_image.mode)
 
         # Perform histogram matching
         colorized_img = histogram_matching(input_image, reference_image)
 
-        # Convert image to CMYK
-        colorized_img = colorized_img.convert("CMYK")
-
-        # Convert CMYK to RGB for display
-        colorized_img = colorized_img.convert("RGB")
-
-        # Display images side by side for comparison
+        # Display the output image
         st.subheader("Output Image")
         st.write("Berikut hasil dari proses histogram matching.")
         st.image(colorized_img, use_column_width=True)
