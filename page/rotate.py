@@ -13,9 +13,10 @@ def rotate_image(image, angle):
 
 st.title("Simple Image Processing App")
 
+# Suruh user memasukkan sebuah gambar atau image yang akan di rotate
 uploaded_file = st.file_uploader("Upload an image", type=["jpg", "jpeg", "png"])
 
-if uploaded_file is not None:
+if uploaded_file is not None: 
     image = Image.open(uploaded_file)
     
     st.image(image, caption="Original Image", use_column_width=True)
