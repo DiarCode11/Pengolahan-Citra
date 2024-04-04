@@ -43,10 +43,12 @@ def main():
         st.subheader("Output Image")
         st.write("Berikut hasil dari proses histogram matching.")
         st.image(colorized_img, use_column_width=True)
-    
+
+        rgb_image = colorized_img.convert("RGB")
+        
         # Convert the colorized image to bytes
         image_bytes = io.BytesIO()
-        colorized_img.save(image_bytes, format='JPEG')
+        rgb_image.save(image_bytes, format='JPEG')
         image_bytes = image_bytes.getvalue()
 
         # Offer the file download
