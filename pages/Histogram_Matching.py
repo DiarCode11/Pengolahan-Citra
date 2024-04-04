@@ -3,7 +3,6 @@ from skimage.exposure import match_histograms
 import numpy as np
 from PIL import Image
 import io
-import os
 
 def histogram_matching(source: Image.Image, target: Image.Image):
     image1 = np.array(source).astype(np.uint8)
@@ -44,30 +43,19 @@ def main():
         st.subheader("Output Image")
         st.write("Berikut hasil dari proses histogram matching.")
         st.image(colorized_img, use_column_width=True)
+    
+        # Convert the colorized image to bytes
+        image_bytes = io.BytesIO()
+        colorized_img.save(image_bytes, format='JPEG')
+        image_bytes = image_bytes.getvalue()
 
-        # Download colorized image
-        download_button = st.button("Download Output Image")
-        if download_button:
-            # Convert the colorized image to bytes
-            image_bytes = io.BytesIO()
-            colorized_img.save(image_bytes, format='JPEG')
-            image_bytes = image_bytes.getvalue()
-
-            # Create 'downloaded' folder if it doesn't exist
-            if not os.path.exists("downloaded"):
-                os.makedirs("downloaded")
-
-            # Save the image to 'downloaded' folder
-            with open("downloaded/Colorized_Image.jpg", "wb") as f:
-                f.write(image_bytes)
-
-            # Offer the file download
-            st.download_button(
-                label="Download",
-                data=image_bytes,
-                file_name="Colorized_Image.jpg",
-                mime="image/jpeg"
-            )
+        # Offer the file download
+        st.download_button(
+            label="Download",
+            data=image_bytes,
+            file_name="Colorized_Image.jpg",
+            mime="image/jpeg"
+        )
 
 if __name__ == "__main__":
     main()

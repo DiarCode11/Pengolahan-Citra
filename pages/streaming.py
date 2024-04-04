@@ -73,12 +73,7 @@ def sepia_effect(frame):
     
 def heatmap_effect(frame): 
     # Terapkan filter Gaussian untuk memperhalus gambar
-    blurred_frame = cv2.GaussianBlur(frame, (15, 15), 0)
-    
-    # Tingkatkan kontras untuk menyoroti area yang lebih terang
-    alpha = 3.0
-    beta = -150 
-    frame = cv2.convertScaleAbs(blurred_frame, alpha=alpha, beta=beta)
+    frame = cv2.heatmap = cv2.applyColorMap(frame, cv2.COLORMAP_JET)
     return frame
     
 def main():
@@ -91,15 +86,18 @@ def main():
         st.error("Tidak dapat membuka kamera.")
         return
 
+    
+    cols = st.columns(2)
+    with cols[0]:
+        st.write("#### Pencerminan:")
+        h_flip = st.checkbox('Flip Horizontal')
+        v_flip = st.checkbox('Flip Vertikal')
+    with cols[1]:
+        st.write("#### Filter:")
+        filter_type = st.selectbox("Pilih Filter", ["Gambar Asli", "Grayscale", "Negative", "Black and White", "Sketch", "Blur", "Edge", "Emboss", "Sepia", "Heatmap", ])
+    
     # Menyiapkan wadah kosong untuk menampilkan frame
     frame_container = st.empty()
-    
-    st.sidebar.write("#### Pencerminan:")
-    h_flip = st.sidebar.checkbox('Flip Horizontal')
-    v_flip = st.sidebar.checkbox('Flip Vertikal')
-    
-    filter_type = st.sidebar.radio("Efek:", ["Gambar Asli", "Grayscale", "Negative", "Black and White", "Sketch", "Blur", "Edge", "Emboss", "Sepia", "Heatmap", ])
-    
     # Loop untuk menampilkan frame dari kamera
     while True:
         # Baca frame dari kamera

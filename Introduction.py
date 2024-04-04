@@ -6,4 +6,3 @@ st.set_page_config(
 )
 
 st.title("Web Team 2")
-st.sidebar.success("Pilih mode diatas")
