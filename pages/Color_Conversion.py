@@ -2,10 +2,13 @@ import streamlit as st
 from PIL import Image
 import os
 import base64
+import io
 
 # Function to process image based on mode
 def process_image(image, mode):
-    if mode == "Merah":
+    if mode == "Gambar Asli": 
+        return image
+    elif mode == "Merah":
         if image.mode == 'RGB':
             r, g, b = image.split()
             r = r.point(lambda i: i * 1.5)  # Meningkatkan intensitas warna merah
@@ -77,22 +80,13 @@ def main():
     # Upload image
     uploaded_file = st.file_uploader("Upload Foto", type=["png", "jpg", "jpeg"], accept_multiple_files=False)
 
-    if uploaded_file is not None:
-        # Display uploaded image
-        st.image(uploaded_file, caption="Foto yang diupload", use_column_width=True)
-
-        # Remove uploaded image button
-        if st.button("Hapus"):
-            uploaded_file = None
-            st.write("Foto telah dihapus.")
-
     # Process image if uploaded
     if uploaded_file:
         # Load uploaded image
         img = Image.open(uploaded_file)
 
         # Display processing options
-        mode = st.selectbox("Pilih Mode Pengolahan", ["Merah", "Kuning", "Hijau", "Biru", "Cyan", "Magenta", "Grayscale", "Binary"])
+        mode = st.selectbox("Pilih Mode Pengolahan", ["Gambar Asli","Merah", "Kuning", "Hijau", "Biru", "Cyan", "Magenta", "Grayscale", "Binary"])
 
         # Process image based on selected mode
         processed_img = process_image(img, mode)
@@ -100,24 +94,27 @@ def main():
         # Display processed image
         st.image(processed_img, caption=f"Foto dengan mode {mode}", use_column_width=True)
 
-        # Download processed image
-        download_button = st.button("Download Foto")
-        if download_button:
-            img_filename = f"{mode}_color_conversion.jpg"
-            downloaded_folder = "downloaded"
-            if not os.path.exists(downloaded_folder):
-                os.makedirs(downloaded_folder)
-            img_path = os.path.join(downloaded_folder, img_filename)
-            processed_img.save(img_path)
-            st.write(f"Foto telah berhasil diunduh sebagai {img_filename}")
-            st.markdown(get_binary_file_downloader_html(img_path, 'Foto'), unsafe_allow_html=True)
+        rgb_image = processed_img.convert("RGB")
+        
+        # Convert the colorized image to bytes
+        image_bytes = io.BytesIO()
+        rgb_image.save(image_bytes, format='JPEG')
+        image_bytes = image_bytes.getvalue()
+
+        # Offer the file download
+        st.download_button(
+            label="Download",
+            data=image_bytes,
+            file_name="Conversion_Image.jpg",
+            mime="image/jpeg"
+        )
 
 # Function to create a download link for files
-def get_binary_file_downloader_html(file_path, file_label='File'):
-    with open(file_path, 'rb') as f:
-        data = f.read()
-    b64 = base64.b64encode(data).decode()
-    return f'<a href="data:file/jpg;base64,{b64}" download="{os.path.basename(file_path)}">{file_label}</a>'
+# def get_binary_file_downloader_html(file_path, file_label='File'):
+#     with open(file_path, 'rb') as f:
+#         data = f.read()
+#     b64 = base64.b64encode(data).decode()
+#     return f'<a href="data:file/jpg;base64,{b64}" download="{os.path.basename(file_path)}">{file_label}</a>'
 
 if __name__ == "__main__":
     main()
