@@ -8,6 +8,7 @@ st.set_page_config(
 st.title("Web Team 2")
 
 st.subheader("Selamat Datang di Web Team 2 kami")
+st.subheader("Web kami memiliki 6 fitur yang bisa dilihat di sidebar")
 
 st.subheader("Nama Kelompok: ")
 st.write("- I Gede Sudiartika")
