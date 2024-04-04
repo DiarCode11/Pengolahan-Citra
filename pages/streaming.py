@@ -77,7 +77,7 @@ def heatmap_effect(frame):
     
     # Tingkatkan kontras untuk menyoroti area yang lebih terang
     alpha = 3.0
-    beta = -150
+    beta = -150 
     frame = cv2.convertScaleAbs(blurred_frame, alpha=alpha, beta=beta)
     return frame
     

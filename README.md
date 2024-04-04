@@ -7,3 +7,8 @@
 4. Histogram Equalization
 5. Streaming + Face detection
 6. Side Bar
+
+## Panduan Install
+Baca dahulu sebelum memulai web
+
+1. Install terminal [pip install streamlit pillow] untuk Color Conversion
