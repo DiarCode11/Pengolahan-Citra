@@ -44,6 +44,7 @@ def main():
         st.write("Berikut hasil dari proses histogram matching.")
         st.image(colorized_img, use_column_width=True)
 
+        
         rgb_image = colorized_img.convert("RGB")
         
         # Convert the colorized image to bytes
