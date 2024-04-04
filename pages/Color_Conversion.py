@@ -4,7 +4,7 @@ import os
 import base64
 import io
 
-# Function to process image based on mode
+# to process image based on mode
 def process_image(image, mode):
     if mode == "Gambar Asli": 
         return image
